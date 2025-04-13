@@ -1,0 +1,602 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: QR code ManaPolyemr\n"
+"POT-Creation-Date: 2025-04-13 15:17+0330\n"
+"PO-Revision-Date: 2025-04-13 15:18+0330\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: bootstrap.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: bootstrap.php:32
+msgid "There is no GD extension loaded in your php. Please load one of them."
+msgstr ""
+"هیچ پسوند GD در php شما بارگذاری نشده است. لطفا یکی از آنها را بارگذاری کنید."
+
+#: bootstrap.php:36
+#, php-format
+msgid ""
+"Your server is running PHP version %s but this plugin requires at least PHP "
+"%s. Please run an upgrade."
+msgstr ""
+"سرور شما نسخه PHP %s را اجرا می کند اما این افزونه حداقل به PHP %s نیاز "
+"دارد. لطفا یک ارتقا اجرا کنید."
+
+#: bootstrap.php:43
+#, php-format
+msgid ""
+"Your Wordpress running version is %s but this plugin requires at least "
+"version %s. Please run an upgrade."
+msgstr ""
+"نسخه در حال اجرا وردپرس شما %s است اما این افزونه حداقل به نسخه %s نیاز "
+"دارد. لطفا یک ارتقا اجرا کنید."
+
+#: controller/class-wqm-qr-code-type.php:74 views/card-fields-form.php:313
+#: views/widget-config.php:14
+msgid "Title"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:75
+msgid "QR code [with shortcode]"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:76
+msgid "VCF-QR code [with shortcode]"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:77
+msgid "Links"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:78
+msgid "Date"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:106
+#: controller/class-wqm-qr-code-type.php:132
+msgid "qrcode"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:114
+#: controller/class-wqm-qr-code-type.php:126
+msgid "create"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:118
+#: controller/class-wqm-qr-code-type.php:134
+msgid "vcf qrcode"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:133
+msgid ".vcf file"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:175
+msgid "MeCard/vCard QR codes"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:176
+msgid "All QR codes"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:177
+#: controller/class-wqm-qr-code-type.php:193
+msgid "QR code MeCard/vCard card"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:178
+msgid "Add New"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:179
+msgid "Add New MeCard/vCard card"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:180
+msgid "Edit"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:181
+msgid "Edit MeCard/vCard card"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:182
+msgid "New MeCard/vCard card"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:183
+#: controller/class-wqm-qr-code-type.php:184
+msgid "View MeCard/vCard card"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:185
+msgid "Search QR code MeCard/vCard cards"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:186
+msgid "No MeCard/vCard cards found"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:187
+msgid "No MeCard/vCard cards found in Trash"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:188
+msgid "Parent MeCard/vCard card"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:221
+msgid "QR code settings"
+msgstr ""
+
+#: controller/class-wqm-qr-code-type.php:229
+msgid "Card fields"
+msgstr ""
+
+#: controller/class-wqm-widget.php:25
+msgid "Load QR code MeCard/vCard as widget"
+msgstr ""
+
+#: controller/class-wqm-widget.php:29
+msgid "QR code MeCard/vCard generator Widget"
+msgstr ""
+
+#: views/card-fields-form.php:27
+msgid "Photo"
+msgstr ""
+
+#: views/card-fields-form.php:33 views/card-fields-form.php:404
+#: views/card-fields-form.php:414 views/card-fields-form.php:419
+#: views/card-fields-form.php:425
+msgid "Select photo"
+msgstr ""
+
+#: views/card-fields-form.php:36
+msgid "Delete photo"
+msgstr ""
+
+#: views/card-fields-form.php:37
+msgid "Card photo."
+msgstr ""
+
+#: views/card-fields-form.php:42
+msgid "Name"
+msgstr ""
+
+#: views/card-fields-form.php:46 views/card-fields-form.php:101
+#: views/card-fields-form.php:139 views/card-fields-form.php:224
+#: views/card-fields-form.php:271
+msgid "expand"
+msgstr ""
+
+#: views/card-fields-form.php:51
+msgid "Family Name"
+msgstr ""
+
+#: views/card-fields-form.php:55
+msgid "Given Name"
+msgstr ""
+
+#: views/card-fields-form.php:59
+msgid "Additional Names"
+msgstr ""
+
+#: views/card-fields-form.php:63
+msgid "Honorific Prefixes"
+msgstr ""
+
+#: views/card-fields-form.php:67
+msgid "Honorific Suffixes"
+msgstr ""
+
+#: views/card-fields-form.php:71 views/card-fields-form.php:102
+#: views/card-fields-form.php:140 views/card-fields-form.php:257
+#: views/card-fields-form.php:304
+msgid "collapse"
+msgstr ""
+
+#: views/card-fields-form.php:73
+msgid ""
+"A structured representation of the name of the person. When a field is "
+"divided by a SEMICOLON (;), the structured type value corresponds, in "
+"sequence, to the Family Name;Given Name;Additional Names;Honorific Prefixes;"
+"Honorific Suffixes."
+msgstr ""
+
+#: views/card-fields-form.php:77
+msgid "Nickname"
+msgstr ""
+
+#: views/card-fields-form.php:81
+msgid ""
+"Familiar name for the object represented by this MeCard/vCard. A few "
+"nicknames may be COMMA (,) separated"
+msgstr ""
+
+#: views/card-fields-form.php:88
+msgid "Tel"
+msgstr ""
+
+#: views/card-fields-form.php:99 views/card-fields-form.php:137
+msgid "Phone number"
+msgstr ""
+
+#: views/card-fields-form.php:107 views/card-fields-form.php:145
+msgid "Phone type(s)"
+msgstr ""
+
+#: views/card-fields-form.php:108 views/card-fields-form.php:146
+msgid "Select an option(s)"
+msgstr ""
+
+#: views/card-fields-form.php:109 views/card-fields-form.php:147
+msgid "residence"
+msgstr ""
+
+#: views/card-fields-form.php:110 views/card-fields-form.php:148
+msgid "voice messaging support"
+msgstr ""
+
+#: views/card-fields-form.php:111 views/card-fields-form.php:149
+msgid "place of work"
+msgstr ""
+
+#: views/card-fields-form.php:112 views/card-fields-form.php:150
+msgid "preferred-use"
+msgstr ""
+
+#: views/card-fields-form.php:113 views/card-fields-form.php:151
+msgid "voice"
+msgstr ""
+
+#: views/card-fields-form.php:114 views/card-fields-form.php:152
+msgid "facsimile"
+msgstr ""
+
+#: views/card-fields-form.php:115 views/card-fields-form.php:153
+msgid "cellular"
+msgstr ""
+
+#: views/card-fields-form.php:116 views/card-fields-form.php:154
+msgid "video conferencing"
+msgstr ""
+
+#: views/card-fields-form.php:117 views/card-fields-form.php:155
+msgid "paging device"
+msgstr ""
+
+#: views/card-fields-form.php:118 views/card-fields-form.php:156
+msgid "bulletin board system"
+msgstr ""
+
+#: views/card-fields-form.php:119 views/card-fields-form.php:157
+msgid "MODEM connected"
+msgstr ""
+
+#: views/card-fields-form.php:120 views/card-fields-form.php:158
+msgid "car-phone"
+msgstr ""
+
+#: views/card-fields-form.php:121 views/card-fields-form.php:159
+msgid "ISDN service"
+msgstr ""
+
+#: views/card-fields-form.php:122 views/card-fields-form.php:160
+msgid "personal communication services"
+msgstr ""
+
+#: views/card-fields-form.php:131
+msgid ""
+"The canonical number string for a telephone number for telephony "
+"communication."
+msgstr ""
+
+#: views/card-fields-form.php:174
+msgid "Email"
+msgstr ""
+
+#: views/card-fields-form.php:189
+msgid "The address for electronic mail communication."
+msgstr ""
+
+#: views/card-fields-form.php:189
+msgid "First field marks as preferred email"
+msgstr ""
+
+#: views/card-fields-form.php:202
+msgid "Birthday"
+msgstr ""
+
+#: views/card-fields-form.php:206
+msgid ""
+"8 digits for date of birth: year (4 digits), month (2 digits) and day (2 "
+"digits), in order."
+msgstr ""
+
+#: views/card-fields-form.php:213
+msgid "Address"
+msgstr ""
+
+#: views/card-fields-form.php:229 views/card-fields-form.php:276
+msgid "The post office box"
+msgstr ""
+
+#: views/card-fields-form.php:233 views/card-fields-form.php:280
+msgid "The extended address"
+msgstr ""
+
+#: views/card-fields-form.php:237 views/card-fields-form.php:284
+msgid "The street address"
+msgstr ""
+
+#: views/card-fields-form.php:241 views/card-fields-form.php:288
+msgid "The locality"
+msgstr ""
+
+#: views/card-fields-form.php:245 views/card-fields-form.php:292
+msgid "The region"
+msgstr ""
+
+#: views/card-fields-form.php:249 views/card-fields-form.php:296
+msgid "The postal code"
+msgstr ""
+
+#: views/card-fields-form.php:253 views/card-fields-form.php:300
+msgid "The country name"
+msgstr ""
+
+#: views/card-fields-form.php:264
+msgid ""
+"The physical delivery address. When a field is divided by a SEMICOLON (;), "
+"the structured type value corresponds, in sequence, to the post office box; "
+"the extended address; the street address; the locality (e.g., city); the "
+"region (e.g., state or province); the postal code; the country name."
+msgstr ""
+
+#: views/card-fields-form.php:317
+msgid "Position held in organization."
+msgstr ""
+
+#: views/card-fields-form.php:321
+msgid "Organization"
+msgstr ""
+
+#: views/card-fields-form.php:325
+msgid "Organization name."
+msgstr ""
+
+#: views/card-fields-form.php:332
+msgid "Url"
+msgstr ""
+
+#: views/card-fields-form.php:347
+msgid "A URL pointing to a website that represents the person in some way."
+msgstr ""
+
+#: views/card-fields-form.php:347
+msgid "First field marks as preferred url"
+msgstr ""
+
+#: views/card-fields-form.php:360
+msgid "Class"
+msgstr ""
+
+#: views/card-fields-form.php:363
+msgid "Skip"
+msgstr ""
+
+#: views/card-fields-form.php:364
+msgid "Public"
+msgstr ""
+
+#: views/card-fields-form.php:365
+msgid "Private"
+msgstr ""
+
+#: views/card-fields-form.php:366
+msgid "Confidential"
+msgstr ""
+
+#: views/card-fields-form.php:368
+msgid "Select card class"
+msgstr ""
+
+#: views/card-fields-form.php:372
+msgid "Note"
+msgstr ""
+
+#: views/card-fields-form.php:376
+msgid "Specifies supplemental information to be set as memo in the phonebook."
+msgstr ""
+
+#: views/requirements-error.php:7
+msgid "QR code MeCard/vCard generator"
+msgstr ""
+
+#: views/requirements-error.php:7
+msgid ""
+"error: Your environment doesn't meet all of the system requirements listed "
+"below."
+msgstr ""
+
+#: views/requirements-error.php:17
+msgid ""
+"If you need to upgrade your version of PHP you can ask your hosting company "
+"for assistance, and if you need help upgrading WordPress you can refer to the"
+msgstr ""
+
+#: views/settings-form.php:30
+msgid "Type"
+msgstr ""
+
+#: views/settings-form.php:36
+msgid "Select contact information QR code format"
+msgstr ""
+
+#: views/settings-form.php:37
+msgid "MeCard has encoding issues and support less fields"
+msgstr ""
+
+#: views/settings-form.php:41
+msgid "Margin"
+msgstr ""
+
+#: views/settings-form.php:45
+msgid "Specify border size around QR code in px"
+msgstr ""
+
+#: views/settings-form.php:50
+msgid "Correction level"
+msgstr ""
+
+#: views/settings-form.php:55
+#, php-format
+msgid "Level L – up to 7% damage"
+msgstr ""
+
+#: views/settings-form.php:58
+#, php-format
+msgid "Level M – up to 15% damage"
+msgstr ""
+
+#: views/settings-form.php:61
+#, php-format
+msgid "Level Q – up to 25% damage"
+msgstr ""
+
+#: views/settings-form.php:64
+#, php-format
+msgid "Level H – up to 30% damage"
+msgstr ""
+
+#: views/settings-form.php:67
+msgid ""
+"There are different amounts of “backup” data depending on how much damage "
+"the QR code is expected to suffer in its intended environment."
+msgstr ""
+
+#: views/settings-form.php:71
+msgid "Label"
+msgstr ""
+
+#: views/settings-form.php:75
+msgid "Optional text label below QR code."
+msgstr ""
+
+#: views/settings-form.php:79
+msgid "Logo"
+msgstr ""
+
+#: views/settings-form.php:85 views/settings-form.php:169
+#: views/settings-form.php:179 views/settings-form.php:184
+#: views/settings-form.php:190
+msgid "Select logo image"
+msgstr ""
+
+#: views/settings-form.php:88
+msgid "Delete logo image"
+msgstr ""
+
+#: views/settings-form.php:89
+msgid "Optional logo image at center of QR code."
+msgstr ""
+
+#: views/settings-form.php:93
+msgid "Logo size"
+msgstr ""
+
+#: views/settings-form.php:97
+msgid "width"
+msgstr ""
+
+#: views/settings-form.php:100
+msgid "height"
+msgstr ""
+
+#: views/settings-form.php:103
+msgid "Set logo image size in pixels or percents."
+msgstr ""
+
+#: views/settings-form.php:107
+msgid "Background color"
+msgstr ""
+
+#: views/settings-form.php:112
+msgid "Set qrcode background color in RGBA format."
+msgstr ""
+
+#: views/settings-form.php:116
+msgid "Text & code color"
+msgstr ""
+
+#: views/settings-form.php:121
+msgid "Set qrcode background color in RGB format."
+msgstr ""
+
+#: views/settings-form.php:127
+msgid "Please! Make sure that you colored qr-code can be read by scanner!!"
+msgstr ""
+
+#: views/settings-form.php:131
+msgid "File name"
+msgstr ""
+
+#: views/settings-form.php:134
+msgid ""
+"File name when enable save/open v-card as file in widget. Enabled patterns: "
+msgstr ""
+
+#: views/widget-config.php:21
+msgid "Card"
+msgstr ""
+
+#: views/widget-config.php:26
+msgid "Select card"
+msgstr ""
+
+#: views/widget-config.php:28
+msgid "(without title)"
+msgstr ""
+
+#: views/widget-config.php:32
+msgid "Please select MeCard/vCard QR code card"
+msgstr ""
+
+#: views/widget-config.php:39
+msgid "Just show QR Code"
+msgstr ""
+
+#: views/widget-config.php:46
+msgid "Allow save QR Code on click"
+msgstr ""
+
+#: views/widget-config.php:53
+msgid "Allow open vCard on click"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "QR code ManaPolyemr"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Share your contact information such as emails, phone number and much more "
+"through QR code with WordPress using shortcode, widget or by direct link."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Miladjef"
+msgstr ""
