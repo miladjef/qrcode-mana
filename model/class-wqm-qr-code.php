@@ -1,381 +1,175 @@
 <?php
 /**
- * QR code generating model.
+ * QR Code generator class
  */
+
+use BaconQrCode\Common\ErrorCorrectionLevel;
+use BaconQrCode\Encoder\Encoder;
+use BaconQrCode\Exception\WriterException;
+use BaconQrCode\Renderer\Color\Rgb;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\RendererStyle\Fill;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
 
 defined( 'ABSPATH' ) || exit;
 
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\LabelAlignment;
-use Endroid\QrCode\QrCode;
+class WQM_Qr_Code_Generator {
 
-if ( ! class_exists( 'WQM_Qr_Code_Generator' ) ) {
+	/**
+	 * @var array Params
+	 */
+	public $params = [];
 
-	class WQM_Qr_Code_Generator {
+	/**
+	 * @var string QR code data as text
+	 */
+	public $text;
 
-		/**
-		 * @var array Of QR code parameters and fields
-		 */
-		private $params;
+	/**
+	 * WQM_Qr_Code_Generator constructor.
+	 *
+	 * @param array $params Params to generate QR code
+	 */
+	public function __construct( $params = [] ) {
+		$this->params = $params;
+	}
 
-		/**
-		 * WQM_Qr_Code_Generator constructor.
-		 *
-		 * @param array $params
-		 */
-		public function __construct( $params ) {
-			$this->params = $params;
+	/**
+	 * Build QR code string
+	 *
+	 * @param bool $just_code Show just text or generate QR code
+	 *
+	 * @return string
+	 */
+	public function build( $just_code = false ) {
+		// Format the data for product information
+		$data = '';
+		
+		if (!empty($this->params['wqm_product_name'])) {
+			$data .= "Product Name: " . $this->params['wqm_product_name'] . "\n";
+		}
+		
+		if (!empty($this->params['wqm_production_date'])) {
+			$data .= "Production Date: " . $this->params['wqm_production_date'] . "\n";
+		}
+		
+		if (!empty($this->params['wqm_ral'])) {
+			$data .= "RAL: " . $this->params['wqm_ral'] . "\n";
+		}
+		
+		if (!empty($this->params['wqm_batch_number'])) {
+			$data .= "Batch Number: " . $this->params['wqm_batch_number'] . "\n";
+		}
+		
+		if (!empty($this->params['wqm_product_code'])) {
+			$data .= "Product Code: " . $this->params['wqm_product_code'] . "\n";
+		}
+		
+		if (!empty($this->params['wqm_datasheet_url'])) {
+			$data .= "Datasheet: " . $this->params['wqm_datasheet_url'] . "\n";
 		}
 
-		/**
-		 * Generate QR code
-		 *
-		 * @param bool $just_code
-		 *
-		 * @return bool|false|string
-		 */
-		public function build( $just_code = false ) {
-			if ( empty( $this->params['wqm_type'] ) ) {
-				return false;
-			}
-			$type = $this->params['wqm_type'];
-			switch ( $type ) {
-				case 'mecard':
-					return $this->generate_mecard( $just_code );
-				case 'vcard':
-					return $this->generate_vcard( $just_code );
-				default:
-					return false;
-			}
+		$this->text = $data;
+
+		if ( $just_code ) {
+			return $this->text;
 		}
 
-		public function buildVcfQr() {
-			$vcf_url      = '/?qr-code=' . $this->params['post_id'];
-			$vcf_full_url = home_url( $vcf_url );
-			$vcf_qr_code  = new QrCode( $vcf_full_url );
+		return $this->render_qr_code();
+	}
 
-			return $this->generate_qr_code( $vcf_qr_code, 'vcfqrcode' );
+	/**
+	 * Generate QR code image
+	 *
+	 * @return string
+	 */
+	protected function render_qr_code() {
+		if ( empty( $this->text ) ) {
+			return '';
 		}
 
-		/**
-		 * Generate MeCard QR code
-		 *
-		 * @param $just_code
-		 *
-		 * @return false|string
-		 */
-		private function generate_mecard( $just_code ) {
-			$fields = $this->assign_fields( $just_code );
-			$text   = 'MECARD:' . implode( ';', $fields ) . ';';
-			$text   = str_replace( [ "\r\n", "\r" ], "\n", $text );
+		// Define colors
+		$background_color = $this->hex_to_rgb( $this->params['wqm_background_color'] ?? '#FFFFFF' );
+		$foreground_color = $this->hex_to_rgb( $this->params['wqm_foreground_color'] ?? '#000000' );
+		$size             = $this->params['wqm_size'] ?? 200;
 
-			if ( $just_code ) {
-				return $text;
-			}
+		$renderer = new ImageRenderer(
+			new RendererStyle( $size, 0, null, null, Fill::uniformColor( new Rgb( $background_color[0], $background_color[1], $background_color[2] ), new Rgb( $foreground_color[0], $foreground_color[1], $foreground_color[2] ) ) ),
+			new SvgImageBackEnd()
+		);
+		$writer   = new Writer( $renderer );
 
-			$qr_code = new QrCode( $text );
+		try {
+			$svg = $writer->writeString( $this->text, Encoder::DEFAULT_BYTE_MODE_ECODING, ErrorCorrectionLevel::L );
+			$svg = str_replace( '<?xml version="1.0" encoding="UTF-8"?>', '', $svg );
 
-			return $this->generate_qr_code( $qr_code );
-		}
-
-		/**
-		 * Generate vCard QR code
-		 *
-		 * @param $just_code
-		 *
-		 * @return false|string
-		 */
-		private function generate_vcard( $just_code ) {
-			$fields = $this->assign_fields( $just_code );
-			$fields = implode( "\n", $fields );
-			$text   = <<<CARD
-BEGIN:VCARD
-VERSION:3.0
-{$fields}
-END:VCARD
-CARD;
-
-			$text = str_replace( [ "\r\n", "\r" ], "\n", $text );
-
-			if ( $just_code ) {
-				return $text;
-			}
-
-			$qr_code = new QrCode( $text );
-
-			return $this->generate_qr_code( $qr_code );
-		}
-
-		/**
-		 * Prepare QR code settings
-		 *
-		 * @param QrCode $qr_code
-		 */
-		private function assign_params( QrCode $qr_code ) {
-
-			if ( ! empty( $this->params['wqm_size'] ) ) {
-				$qr_code->setSize( $this->params['wqm_size'] );
-			}
-
-			if ( empty( $this->params['wqm_img_type'] ) ) {
-				$this->params['wqm_img_type'] = 'png';
-			}
-			$qr_code->setWriterByName( $this->params['wqm_img_type'] );
-
-			if ( isset( $this->params['wqm_margin'] ) ) {
-				$qr_code->setMargin( $this->params['wqm_margin'] );
-			}
-
-			if ( ! empty( $this->params['wqm_encoding'] ) ) {
-				$qr_code->setEncoding( $this->params['wqm_encoding'] );
-			}
-
-			if ( ! empty( $this->params['wqm_correction_level'] ) && in_array( $this->params['wqm_correction_level'], array(
-					'LOW',
-					'MEDIUM',
-					'QUARTILE',
-					'HIGH'
-				) ) ) {
-				$qr_code->setErrorCorrectionLevel( ErrorCorrectionLevel::{$this->params['wqm_correction_level']}() );
-			}
-
-			if ( ! empty( $this->params['wqm_color_rgba'] ) ) {
-				$rgb = array_map( 'trim', explode( ',', $this->params['wqm_color_rgba'] ) );
-				if ( 4 == count( $rgb ) ) {
-					$qr_code->setForegroundColor( [ 'r' => $rgb[0], 'g' => $rgb[1], 'b' => $rgb[2], 'a' => $rgb[3] ] );
-				}
-				if ( 3 == count( $rgb ) ) {
-					$qr_code->setForegroundColor( [ 'r' => $rgb[0], 'g' => $rgb[1], 'b' => $rgb[2], 'a' => 1 ] );
-				}
-			}
-
-			if ( ! empty( $this->params['wqm_bg_rgba'] ) ) {
-				$rgb = array_map( 'trim', explode( ',', $this->params['wqm_bg_rgba'] ) );
-				if ( 4 == count( $rgb ) ) {
-					$qr_code->setBackgroundColor( [ 'r' => $rgb[0], 'g' => $rgb[1], 'b' => $rgb[2], 'a' => $rgb[3] ] );
-				}
-				if ( 3 == count( $rgb ) ) {
-					$qr_code->setBackgroundColor( [ 'r' => $rgb[0], 'g' => $rgb[1], 'b' => $rgb[2], 'a' => 1 ] );
-				}
-			}
-
-			if ( ! empty( $this->params['wqm_label'] ) ) {
-				$qr_code->setLabel( $this->params['wqm_label'], 16, null, LabelAlignment::CENTER() );
-			}
-
-			if ( ! empty( $this->params['wqm_logo_path'] ) && file_exists( $this->params['wqm_logo_path'] ) ) {
-				try {
-					$qr_code->setLogoPath( $this->params['wqm_logo_path'] );
-				} catch ( Exception $e ) {
-					WQM_Common::print_error( $e );
-					$this->params['wqm_logo_path'] = false;
-				}
-
-			}
-
-			$qr_code->setValidateResult( false );
-			$qr_code->setWriterOptions( [ 'exclude_xml_declaration' => true ] );
-
-			if ( empty( $this->params['wqm_logo_width'] ) ) {
-				$this->params['wqm_logo_width'] = '10%';
-			}
-
-			if ( empty( $this->params['wqm_logo_height'] ) ) {
-				$this->params['wqm_logo_height'] = '10%';
-			}
-
-			if ( ! empty( $this->params['wqm_logo_path'] ) ) {
-				$data = $qr_code->getData();
-
-				$logo_width  = $this->params['wqm_logo_width'];
-				$logo_height = $this->params['wqm_logo_height'];
-
-				if ( false !== strpos( $logo_width, '%' ) ) { // if size set as percent
-					$logo_width = WQM_Common::clear_digits( $logo_width ) * intval( $data['inner_width'] ) / 100;
-				}
-
-				if ( false !== strpos( $logo_height, '%' ) ) { // if size set as percent
-					$logo_height = WQM_Common::clear_digits( $logo_height ) * intval( $data['inner_height'] ) / 100;
-				}
-
-				$qr_code->setLogoSize( intval( $logo_width ), intval( $logo_height ) );
-			}
-
-			if ( ! empty( $this->params['wqm_bgcolor'] ) ) {
-				$colors = [];
-				if ( count( explode( ',', $this->params['wqm_bgcolor'] ) ) < 4 ) {
-					$this->params['wqm_bgcolor'] = str_replace( ')', ',1)', $this->params['wqm_bgcolor'] );
-					$this->params['wqm_bgcolor'] = str_replace( 'rgb(', 'rgba(', $this->params['wqm_bgcolor'] );
-				}
-				preg_match( '@rgba\(([\d]+),([\d]+),([\d]+),([\d\.]+)\)@si', $this->params['wqm_bgcolor'], $colors );
-				$qr_code->setBackgroundColor( [ 'r' => $colors[1], 'g' => $colors[2], 'b' => $colors[3], 'a' => $colors[4] ] );
-			}
-			if ( ! empty( $this->params['wqm_fgcolor'] ) ) {
-				$colors = str_replace( '#', '', $this->params['wqm_fgcolor'] );
-				$qr_code->setForegroundColor( [ 'r' => hexdec( substr( $colors, 0, 2 ) ), 'g' => hexdec( substr( $colors, 2, 2 ) ), 'b' => hexdec( substr( $colors, 2, 2 ) ) ] );
-			}
-		}
-
-		/**
-		 * Generate qr-code image
-		 *
-		 * @param QrCode $code
-		 *
-		 * @return string|false image path or false on error
-		 */
-		public function generate_qr_code( QrCode $code, $type = 'qrcode' )
-		{
-			$this->assign_params( $code );
-			$code = apply_filters( 'wqm_generate_qr_code_before', $code );
-
-			// Save it to a file
-			if ( $this->params[ 'wqm_is_static_' . $type ] ) {
-				$save_to = $this->params[ 'wqm_is_static_' . $type ];
-			} else {
-				$save_to = tempnam( sys_get_temp_dir(), 'qr-' );
-				if ( ! $save_to ) {
-					$save_to = tempnam( session_save_path(), 'qr-' );
-				}
-				$save_to .= '.' . $this->params['wqm_img_type'];
-			}
-
-			try {
-				$code->writeFile( $save_to );
-			} catch ( Exception $e ) {
-				WQM_Common::print_error( $e );
-			}
-
-			return $save_to;
-		}
-
-		/**
-		 * Prepare QR code fields to build Xcard
-		 *
-		 * @param bool $just_code
-		 *
-		 * @return array
-		 */
-		private function assign_fields( bool $just_code = false ): array {
-			error_reporting( 0 );
-			$fields = array();
-			foreach ( $this->params as $name => $field ) {
-				if ( in_array( $name, WQM_QR_Code_Type::$custom_post_fields ) ) {
-					$name = str_replace( '_', '-', str_replace( 'WQM_', '', strtoupper( $name ) ) );
-					if ( $field == '' ) {
-						continue;
-					}
-					if ( 'PHOTO' == $name ) {
-						$field = $this->params['wqm_photo_path'];
-					}
-					if ( 'ADR' == $name ) {
-						foreach ( $field as $adr ) {
-							if ( empty( $adr ) ) {
-								continue;
-							}
-							if ( 'vcard' == $this->params['wqm_type'] ) {
-								$name = $this->patchVcard( $name );
-								$adr  = quoted_printable_encode( $adr );
-							}
-
-							$fields[] = $name . ':' . $adr;
-						}
-					}
-					if ( 'TEL' == $name ) {
-						foreach ( $field as $tel ) {
-							if ( empty( $tel['content'] ) ) {
-								continue;
-							}
-
-							if ( empty( $tel['type'] ) ) {
-								$fields[] = "{$name}:{$tel['content']}";
-							} else {
-								$fields[] = 'TEL;TYPE=' . implode( ',', $tel['type'] ) . ':' . $tel['content'];
-							}
-						}
-					}
-					if ( 'URL' == $name ) {
-						$pref = count( $field ) == 1;
-
-						foreach ( $field as $m ) {
-							if ( empty( $m ) ) {
-								continue;
-							}
-
-							if ( ! $pref ) {
-								$pref     = true;
-								$fields[] = 'URL;TYPE=pref:' . $m;
-							} else {
-								$fields[] = "{$name}:{$m}";
-							}
-						}
-					}
-					if ( 'EMAIL' == $name ) {
-						$pref = count( $field ) == 1;
-
-						foreach ( $field as $m ) {
-							if ( empty( $m ) ) {
-								continue;
-							}
-
-							if ( ! $pref ) {
-								$pref     = true;
-								$fields[] = 'EMAIL;TYPE=pref:' . $m;
-							} else {
-								$fields[] = "{$name}:{$m}";
-							}
-						}
-					}
-					if ( 'vcard' == $this->params['wqm_type'] ) {
-						if ( ! is_array( $field ) ) {
-							$name  = $this->patchVcard( $name );
-							$field = quoted_printable_encode( $field );
-						}
-					}
-					if ( 'vcard' == $this->params['wqm_type'] && //for download vCard file
-					     $just_code &&
-					     in_array( $name, [ 'PHOTO;VALUE=uri', 'LOGO;VALUE=uri' ] )
-					) {
-						$img     = file_get_contents( $field );
-						$info    = getimagesize( $field );
-						$ext     = explode( '/', $info['mime'] )[1];
-						$code    = base64_encode( $img );
-						$subname = str_replace( ';VALUE=uri', ';ENCODING=b;TYPE=' . strtoupper( $ext ), $name );
-						if ( strlen( $code ) > 0 ) {
-							$fields[] = "{$subname}:{$code}";
-						}
-					} else {
-						if ( ! is_array( $field ) && ! empty( $field ) ) {
-							$fields[] = "{$name}:{$field}";
-						}
-					}
-				}
-			}
-
-			return $fields;
-		}
-
-		/**
-		 * Update fields for vCard format
-		 *
-		 * @param $name string
-		 *
-		 * @return string
-		 */
-		private function patchVcard( string $name ): string {
-			switch ( $name ) {
-				case 'LOGO':
-				case 'PHOTO':
-					return $name .= ';VALUE=uri';
-				case 'N':
-				case 'NICKNAME':
-				case 'ADR':
-				case 'TITLE':
-				case 'ORG':
-				case 'NOTE':
-					return $name .= ';CHARSET=utf-8;ENCODING=QUOTED-PRINTABLE';
-				default:
-					return $name;
-			}
+			return '<div class="wqm-qrcode">' . $svg . '</div>';
+		} catch ( WriterException $e ) {
+			return '';
 		}
 	}
+
+	/**
+	 * Convert hex color to RGB array
+	 *
+	 * @param string $hex Hex color
+	 *
+	 * @return array
+	 */
+	private function hex_to_rgb( $hex ) {
+		$hex = str_replace( '#', '', $hex );
+
+		if ( strlen( $hex ) == 3 ) {
+			$r = hexdec( substr( $hex, 0, 1 ) . substr( $hex, 0, 1 ) );
+			$g = hexdec( substr( $hex, 1, 1 ) . substr( $hex, 1, 1 ) );
+			$b = hexdec( substr( $hex, 2, 1 ) . substr( $hex, 2, 1 ) );
+		} else {
+			$r = hexdec( substr( $hex, 0, 2 ) );
+			$g = hexdec( substr( $hex, 2, 2 ) );
+			$b = hexdec( substr( $hex, 4, 2 ) );
+		}
+
+		return array( $r, $g, $b );
+	}
+}
+public function build( $just_code = false ) {
+    // Format the data for product information
+    $data = '';
+    
+    // Ensure that all text is UTF-8 encoded
+    mb_internal_encoding('UTF-8');
+    
+    if (!empty($this->params['wqm_product_name'])) {
+        $data .= "Product Name: " . $this->params['wqm_product_name'] . "\n";
+    }
+    
+    if (!empty($this->params['wqm_production_date'])) {
+        $data .= "Production Date: " . $this->params['wqm_production_date'] . "\n";
+    }
+    
+    if (!empty($this->params['wqm_ral'])) {
+        $data .= "RAL: " . $this->params['wqm_ral'] . "\n";
+    }
+    
+    if (!empty($this->params['wqm_batch_number'])) {
+        $data .= "Batch Number: " . $this->params['wqm_batch_number'] . "\n";
+    }
+    
+    if (!empty($this->params['wqm_product_code'])) {
+        $data .= "Product Code: " . $this->params['wqm_product_code'] . "\n";
+    }
+    
+    if (!empty($this->params['wqm_datasheet_url'])) {
+        $data .= "Datasheet: " . $this->params['wqm_datasheet_url'] . "\n";
+    }
+
+    $this->text = $data;
+
+    if ( $just_code ) {
+        return $this->text;
+    }
+
+    return $this->render_qr_code();
 }

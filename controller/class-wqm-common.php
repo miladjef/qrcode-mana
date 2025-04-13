@@ -236,11 +236,12 @@ if ( ! class_exists( 'WQM_Common' ) ) {
 			if ( empty( $filename ) ) {
 				$filename = $fields['wqm_type'] == 'mecard' ? 'meCard' : 'vCard';
 			}
-			$filename = str_replace( '%_name_%', $fields['wqm_n'], $filename );
-			$filename = str_replace( '%_nickname_%', $fields['wqm_nickname'], $filename );
-			$filename = str_replace( '%_title_%', $fields['wqm_title'], $filename );
-			$filename = str_replace( '%_organization_%', $fields['wqm_org'], $filename );
-
+			$filename = str_replace( '%_product_name_%', $fields['wqm_product_name'], $filename );
+			$filename = str_replace( '%_production_date_%', $fields['wqm_production_date'], $filename );
+			$filename = str_replace( '%_ral_%', $fields['wqm_ral'], $filename );
+			$filename = str_replace( '%_batch_number_%', $fields['wqm_batch_number'], $filename );
+			$filename = str_replace( '%_product_code_%', $fields['wqm_product_code'], $filename );
+		
 			return sanitize_file_name( $filename );
 		}
 	}
